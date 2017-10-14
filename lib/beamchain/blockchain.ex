@@ -16,6 +16,13 @@ defmodule Beamchain.Blockchain do
   end
 
   defp genesis_block do
-    Block.generate(0, 1508004991, "Genesis block", "0")
+    %Block{
+      index: 0,
+      timestamp: 1508004991,
+      data: "Genesis block",
+      previous_hash: "0",
+      nonce: 268731,
+      hash: "00000E6BD724E993F81C288688C738D2BC5CF74FF72A6145E29C91BCEAE14833"
+    }
   end
 end
