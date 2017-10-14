@@ -11,26 +11,11 @@ defmodule Beamchain.Blockchain do
     timestamp = System.system_time(:second)
     previous_hash = previous_block.hash
 
-    block = generate_block(index, timestamp, data, previous_hash)
+    block = Block.generate(index, timestamp, data, previous_hash)
     [block | blockchain]
   end
 
   defp genesis_block do
-    generate_block(0, 1508004991, "Genesis block", "0")
-  end
-
-  defp generate_block(index, timestamp, data, previous_hash) do
-    block = %Block{
-      index: index,
-      timestamp: timestamp,
-      data: data,
-      previous_hash: previous_hash
-    }
-    %{ block | hash: generate_hash(block) }
-  end
-
-  defp generate_hash(%Block{index: index, timestamp: timestamp, data: data, previous_hash: previous_hash}) do
-    str = to_string(index) <> to_string(timestamp) <> data <> previous_hash
-    :crypto.hash(:sha256, str) |> Base.encode16()
+    Block.generate(0, 1508004991, "Genesis block", "0")
   end
 end
