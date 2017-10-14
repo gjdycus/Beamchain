@@ -1,15 +1,15 @@
 defmodule Beamchain.API do
   alias Beamchain.Server
 
-  def start do
-    GenServer.start_link(Server, :ok, [])
+  def start_link(name) do
+    GenServer.start_link(Server, :ok, [name: name])
   end
 
-  def read_blocks(pid) do
-    GenServer.call(pid, {:read})
+  def read_blocks do
+    GenServer.call(Server, {:read})
   end
 
-  def add_block(pid, data) do
-    GenServer.cast(pid, {:add, data})
+  def add_block(data) do
+    GenServer.cast(Server, {:add, data})
   end
 end
