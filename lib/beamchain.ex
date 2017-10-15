@@ -1,8 +1,8 @@
 defmodule Beamchain do
   use Application
 
-  defdelegate read_blocks(),   to: Beamchain.API
-  defdelegate add_block(data), to: Beamchain.API
+  defdelegate read_blocks(),    to: Beamchain.API
+  defdelegate mine_block(data), to: Beamchain.API
 
   def start(_type, _args) do
     import Supervisor.Spec, warn: false

@@ -9,7 +9,7 @@ defmodule Beamchain.API do
     GenServer.call(Server, {:read})
   end
 
-  def add_block(data) do
+  def mine_block(data) do
     GenServer.cast(Server, {:add, data})
   end
 end

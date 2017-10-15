@@ -4,13 +4,11 @@ defmodule Beamchain.Block do
   defstruct [:index, :timestamp, :data, :previous_hash, :nonce, :hash]
 
   def generate(index, timestamp, data, previous_hash) do
-    block = %__MODULE__{
+    %__MODULE__{
       index: index,
       timestamp: timestamp,
       data: data,
       previous_hash: previous_hash
-    }
-    {nonce, hash} = Miner.mine(block)
-    %{ block | nonce: nonce, hash: hash }
+    } |> Miner.proof_of_work()
   end
 end
