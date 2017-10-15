@@ -5,14 +5,25 @@ defmodule Beamchain.Miner do
 
   def proof_of_work(%Block{} = block) do
     {:ok, nonce_producer} = NonceProducer.start_link
-    NonceProcessor.start_link(block, self())
 
-    receive do
-      {:ok, block} ->
-        Process.unlink(nonce_producer)
-        Process.exit(nonce_producer, :kill)
-        block
+    {microseconds, block} = :timer.tc fn ->
+      requester = self()
+      :rpc.multicall(NonceProcessor, :start_link, [block, requester])
+
+      receive do
+        {:ok, block} ->
+          Process.unlink(nonce_producer)
+          Process.exit(nonce_producer, :kill)
+          block
+      end
     end
+
+    seconds = (microseconds / 1_000_000)
+    hashes_per_second = block.nonce / seconds
+    IO.puts "Valid nonce found in #{seconds} seconds at a rate of #{hashes_per_second} hashes per second."
+    IO.puts "Generated block: #{inspect block}"
+
+    block
   end
 
   def test_nonces(block, nonces) do
