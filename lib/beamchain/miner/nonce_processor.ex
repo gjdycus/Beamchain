@@ -15,7 +15,7 @@ defmodule Beamchain.Miner.NonceProcessor do
   def handle_events(events, _from, {block, requester}) do
     [next_nonce | _tail] = events
     if rem(next_nonce, 10000) === 0 do
-      IO.puts "#{next_nonce} nonces tested"
+      IO.inspect "#{next_nonce} nonces processed", label: Node.self()
     end
 
     case Miner.test_nonces(block, events) do
