@@ -8,7 +8,7 @@ defmodule Beamchain do
     import Supervisor.Spec, warn: false
 
     children = [
-      worker(Beamchain.API, [Beamchain.Server])
+      worker(Beamchain.API, [{:global, Beamchain.Server}])
     ]
 
     opts = [strategy: :one_for_one, name: Beamchain.Supervisor]
