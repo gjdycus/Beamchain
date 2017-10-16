@@ -4,6 +4,7 @@ defmodule Beamchain.Server do
   alias Beamchain.Blockchain
 
   def init(:ok) do
+    Process.flag(:trap_exit, true)
     {:ok, Blockchain.init()}
   end
 

@@ -2,7 +2,12 @@ defmodule Beamchain.API do
   alias Beamchain.Server
 
   def start_link(name) do
-    GenServer.start_link(Server, :ok, [name: name])
+    case GenServer.start_link(Server, :ok, [name: name]) do
+      {:ok, pid} -> {:ok, pid}
+      {:error, {:already_started, pid}} ->
+        Process.link(pid)
+        {:ok, pid}
+    end
   end
 
   def read_blocks do
