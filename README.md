@@ -7,16 +7,18 @@ A proof-of-concept blockchain implementation demonstrating the distributed-compu
 This implementation is far from finished and was thrown together to prove a concept. Therefore, it could benefit from a bit of refactoring. Besides that, here's what I would like to get done on it:
 
 - [x] Basic reading/writing of data to the blockchain on a local network
-- [ ] Basic P2P blockchain network & validating incoming blocks
 - [x] Proof-of-work system
-- [ ] Dynamic proof-of-work difficulty based on (?)
-- [ ] Decouple the blockchain from the mining mechanism
 - [x] Enable cluster computing for proof of work
-- [ ] Enable grid computing for proof of work
-- [ ] (Very large in scope) allow smartphones to participate in distributed computing
 - [x] Allow nodes to gracefully leave the network while mining
+- [ ] Get rid of global processes across nodes
+- [ ] Consensus protocol for synchronizing blockchain within cluster
+- [ ] Decouple the blockchain from the mining mechanism
 - [ ] Allow nodes to gracefully enter the network and pick up in the middle of a proof-of-work problem
 - [ ] Simplify the process of clustering nodes (there are libraries which do this)
+- [ ] Basic P2P blockchain network & validating incoming blocks
+- [ ] Dynamic proof-of-work difficulty based on (?)
+- [ ] Enable grid computing for proof of work
+- [ ] (Very large in scope) allow smartphones to participate in distributed computing
 
 ## Setup
 
