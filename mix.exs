@@ -16,7 +16,7 @@ defmodule Beamchain.Mixfile do
   def application do
     # Specify extra applications you'll use from Erlang/Elixir
     [
-      mod: {Beamchain, []},
+      mod: {Beamchain.Application, []},
       extra_applications: [:logger]
     ]
   end

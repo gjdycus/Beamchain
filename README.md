@@ -79,7 +79,7 @@ When you want to add data to the blockchain, the cluster will recruit all connec
 * The same work is not done twice.
 
 ```
-iex(worker@10.1.10.213)4> Beamchain.mine_block("arbitrary data")
+iex(worker@10.1.10.213)4> Beamchain.generate_block("arbitrary data")
 ```
 
 While the nodes are working together to find a solution, you'll be able to watch the output and see that the work is being distributed among nodes and not duplicated.

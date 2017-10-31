@@ -11,10 +11,18 @@ defmodule Beamchain.API do
   end
 
   def read_blocks do
-    GenServer.call({:global, Server}, {:read})
+    GenServer.call(Server, {:read_blocks})
   end
 
-  def mine_block(data) do
-    GenServer.cast({:global, Server}, {:add, data})
+  def set_blocks(blocks) do
+    GenServer.cast(Server, {:set_blocks, blocks})
+  end
+
+  def generate_block(data) do
+    GenServer.cast(Server, {:generate_block, data})
+  end
+
+  def add_block(block) do
+    :rpc.multicall(GenServer, :cast, [Server, {:add_block, block}])
   end
 end

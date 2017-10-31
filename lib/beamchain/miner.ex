@@ -13,7 +13,7 @@ defmodule Beamchain.Miner do
       receive do
         {:ok, block} ->
           Process.unlink(nonce_producer)
-          Process.exit(nonce_producer, :kill)
+          Process.exit(nonce_producer, :shutdown)
           block
       end
     end
