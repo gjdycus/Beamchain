@@ -1,15 +1,15 @@
 defmodule Beamchain.Miner.NonceProcessor do
   use GenStage
 
-  alias Beamchain.{Miner, Miner.NonceProducer}
+  alias Beamchain.Miner
 
-  def start_link(block, requester) do
-    GenStage.start_link(__MODULE__, {block, requester}, [name: __MODULE__])
+  def start_link(block, requester, producer) do
+    GenStage.start_link(__MODULE__, {block, requester, producer}, [name: __MODULE__])
   end
 
-  def init(state) do
-    opts = [subscribe_to: [{{:global, NonceProducer}, [max_demand: 10000]}]]
-    {:consumer, state, opts}
+  def init({block, requester, producer}) do
+    opts = [subscribe_to: [{producer, [max_demand: 10000]}]]
+    {:consumer, {block, requester}, opts}
   end
 
   def handle_events(events, _from, {block, requester}) do

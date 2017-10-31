@@ -4,11 +4,11 @@ defmodule Beamchain.Miner do
   @difficulty 5
 
   def proof_of_work(%Block{} = block) do
-    {:ok, nonce_producer} = NonceProducer.start_link
+    {:ok, nonce_producer} = NonceProducer.start_link()
 
     {microseconds, block} = :timer.tc fn ->
       requester = self()
-      :rpc.multicall(NonceProcessor, :start_link, [block, requester])
+      :rpc.multicall(NonceProcessor, :start_link, [block, requester, nonce_producer])
 
       receive do
         {:ok, block} ->

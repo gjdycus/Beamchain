@@ -10,7 +10,7 @@ This implementation is far from finished and was thrown together to prove a conc
 - [x] Proof-of-work system
 - [x] Enable cluster computing for proof of work
 - [x] Allow nodes to gracefully leave the network while mining
-- [ ] Get rid of global processes across nodes
+- [x] Get rid of global processes across nodes
 - [ ] Consensus protocol for synchronizing blockchain within cluster
 - [ ] Decouple the blockchain from the mining mechanism
 - [ ] Allow nodes to gracefully enter the network and pick up in the middle of a proof-of-work problem

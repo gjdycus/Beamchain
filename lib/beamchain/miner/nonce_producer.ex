@@ -2,7 +2,7 @@ defmodule Beamchain.Miner.NonceProducer do
   use GenStage
 
   def start_link do
-    case GenStage.start_link(__MODULE__, :ok, [name: {:global, __MODULE__}]) do
+    case GenStage.start_link(__MODULE__, :ok, [name: __MODULE__]) do
       {:ok, pid} -> {:ok, pid}
       {:error, {:already_started, pid}} ->
         Process.link(pid)
