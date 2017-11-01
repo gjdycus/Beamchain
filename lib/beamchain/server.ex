@@ -16,10 +16,8 @@ defmodule Beamchain.Server do
   end
 
   def handle_cast({:generate_block, data}, blockchain) do
-    spawn_link fn ->
-      [previous_block | _tail] = blockchain
-      Block.generate(data, previous_block)
-    end
+    [previous_block | _tail] = blockchain
+    spawn(Block, :generate, [data, previous_block])
 
     {:noreply, blockchain}
   end
