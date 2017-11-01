@@ -41,15 +41,15 @@ To connect two or more Elixir nodes together within a local network, we must:
 
 # node @ 10.1.10.213
 > iex --name 'worker@10.1.10.213' --cookie monster -S mix
-iex(worker@10.1.10.213)1> Node.connect(:"worker@10.1.10.145")
+iex(worker@10.1.10.213)1> Beamchain.Node.connect(:"worker@10.1.10.145")
 
 # node @ 10.1.10.198
 > iex --name 'worker@10.1.10.198' --cookie monster -S mix
-iex(worker@10.1.10.198)1> Node.connect(:"worker@10.1.10.145")
+iex(worker@10.1.10.198)1> Beamchain.Node.connect(:"worker@10.1.10.145")
 
 # node @ 10.1.10.254
 > iex --name 'worker@10.1.10.254' --cookie monster -S mix
-iex(worker@10.1.10.254)1> Node.connect(:"worker@10.1.10.145")
+iex(worker@10.1.10.254)1> Beamchain.Node.connect(:"worker@10.1.10.145")
 ```
 
 After this, all 4 nodes will be connected.
