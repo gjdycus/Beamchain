@@ -10,6 +10,7 @@ defmodule Miner.Application do
     children = [
       # Starts a worker by calling: Miner.Worker.start_link(arg)
       # {Miner.Worker, arg},
+      Miner
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

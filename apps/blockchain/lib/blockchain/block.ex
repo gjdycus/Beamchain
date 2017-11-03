@@ -7,9 +7,7 @@ defmodule Blockchain.Block do
       timestamp: System.system_time(:second),
       data: data,
       previous_hash: previous_block.hash
-    }
-    |> Miner.proof_of_work()
-    |> Blockchain.add_block()
+    } |> Miner.proof_of_work(&Blockchain.add_block/1)
   end
 
   def genesis_block do
@@ -18,8 +16,8 @@ defmodule Blockchain.Block do
       timestamp: 1508004991,
       data: "Genesis block",
       previous_hash: "0",
-      nonce: 268731,
-      hash: "00000E6BD724E993F81C288688C738D2BC5CF74FF72A6145E29C91BCEAE14833"
+      nonce: 9645352,
+      hash: "000000ACE80A32E8D2794D2F1321994391356B8492B200946527D3153EA39ECA"
     }
   end
 end

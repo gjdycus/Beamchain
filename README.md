@@ -13,7 +13,7 @@ This implementation is far from finished and was thrown together to prove a conc
 - [x] Get rid of global processes across nodes
 - [x] Consensus protocol for synchronizing blockchain within cluster
 - [x] Decouple the blockchain from the mining mechanism
-- [ ] Allow nodes to gracefully enter the network and pick up in the middle of a proof-of-work problem
+- [x] Allow nodes to gracefully enter the network and pick up in the middle of a proof-of-work problem
 - [ ] Simplify the process of clustering nodes (there are libraries which do this)
 - [ ] Basic P2P blockchain network & validating incoming blocks
 - [ ] Dynamic proof-of-work difficulty based on (?)
@@ -66,8 +66,8 @@ To get the current state of the blockchain on any node, call `Blockchain.read_bl
 ```
 iex(worker@10.1.10.213)3> Blockchain.read_blocks()
 [%Blockchain.Block{data: "Genesis block",
-  hash: "00000E6BD724E993F81C288688C738D2BC5CF74FF72A6145E29C91BCEAE14833",
-  index: 0, nonce: 268731, previous_hash: "0", timestamp: 1508004991}]
+  hash: "000000ACE80A32E8D2794D2F1321994391356B8492B200946527D3153EA39ECA",
+  index: 0, nonce: 9645352, previous_hash: "0", timestamp: 1508004991}]
 ```
 
 #### Mining new blocks of data

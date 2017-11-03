@@ -1,26 +1,40 @@
 defmodule Miner do
   alias Miner.{NonceProcessor, NonceProducer}
 
-  def proof_of_work(block) do
+  defdelegate child_spec(opts),     to: Miner.API
+  defdelegate set_problem(problem), to: Miner.API
+  defdelegate current_problem(),    to: Miner.API
+  defdelegate clear_problem(),      to: Miner.API
+
+  def proof_of_work(block, callback) do
     {:ok, nonce_producer} = NonceProducer.start_link()
 
-    {microseconds, block} = :timer.tc fn ->
-      requester = self()
-      :rpc.multicall(NonceProcessor, :start_link, [block, requester, nonce_producer])
+    start_time = System.system_time(:millisecond)
 
-      receive do
-        {:ok, block} ->
-          Process.unlink(nonce_producer)
-          Process.exit(nonce_producer, :shutdown)
-          block
-      end
+    callback = fn mined_block ->
+      end_time = System.system_time(:millisecond)
+
+      :rpc.multicall(__MODULE__, :clear_problem, [])
+
+      Process.unlink(nonce_producer)
+      Process.exit(nonce_producer, :shutdown)
+
+      callback.(mined_block)
+
+      seconds = ((end_time - start_time) / 1000)
+      hashes_per_second = mined_block.nonce / seconds
+      IO.puts "Valid nonce found in #{seconds} seconds at a rate of #{hashes_per_second} hashes per second."
+      IO.puts "Generated block: #{inspect mined_block}"
     end
 
-    seconds = (microseconds / 1_000_000)
-    hashes_per_second = block.nonce / seconds
-    IO.puts "Valid nonce found in #{seconds} seconds at a rate of #{hashes_per_second} hashes per second."
-    IO.puts "Generated block: #{inspect block}"
+    :rpc.multicall(__MODULE__, :set_problem, [{block, nonce_producer, callback}])
+    :rpc.multicall(__MODULE__, :start_mining, [])
+  end
 
-    block
+  def start_mining do
+    case current_problem() do
+      {block, producer, callback} -> NonceProcessor.start_link(block, producer, callback)
+      {:empty} -> nil
+    end
   end
 end
