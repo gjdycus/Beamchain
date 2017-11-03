@@ -1,4 +1,4 @@
-defmodule Beamchain.Miner.NonceProducer do
+defmodule Miner.NonceProducer do
   use GenStage
 
   def start_link do

@@ -1,7 +1,7 @@
-defmodule Beamchain.Miner.NonceProcessor do
+defmodule Miner.NonceProcessor do
   use GenStage
 
-  alias Beamchain.Miner
+  @difficulty 5
 
   def start_link(block, requester, producer) do
     GenStage.start_link(__MODULE__, {block, requester, producer}, [name: __MODULE__])
@@ -18,12 +18,25 @@ defmodule Beamchain.Miner.NonceProcessor do
       IO.inspect "#{next_nonce} nonces processed", label: Node.self()
     end
 
-    case Miner.test_nonces(block, events) do
+    case test_nonces(block, events) do
       {nonce, hash} ->
         block = %{block | nonce: nonce, hash: hash}
         send requester, {:ok, block}
         {:stop, :normal, {block, requester}}
       nil -> {:noreply, [], {block, requester}}
     end
+  end
+
+  defp test_nonces(block, nonces) do
+    string_to_match = String.duplicate("0", @difficulty)
+
+    nonces
+    |> Stream.map(&({&1, calculate_hash(%{block | nonce: &1})}))
+    |> Enum.find(fn({_nonce, hash}) -> String.starts_with?(hash, string_to_match) end)
+  end
+
+  defp calculate_hash(%{index: index, timestamp: timestamp, data: data, previous_hash: previous_hash, nonce: nonce}) do
+    str = to_string(index) <> to_string(timestamp) <> data <> previous_hash <> to_string(nonce)
+    :crypto.hash(:sha256, str) |> Base.encode16()
   end
 end

@@ -1,8 +1,17 @@
-defmodule Beamchain.API do
-  alias Beamchain.Server
+defmodule Blockchain.API do
+  alias Blockchain.Server
 
-  def start_link(name) do
-    case GenServer.start_link(Server, :ok, [name: name]) do
+  def child_spec(_opts) do
+    %{
+      id: __MODULE__,
+      start: {__MODULE__, :start_link, []},
+      type: :worker,
+      restart: :permanent
+    }
+  end
+
+  def start_link do
+    case GenServer.start_link(Server, :ok, [name: Server]) do
       {:ok, pid} -> {:ok, pid}
       {:error, {:already_started, pid}} ->
         Process.link(pid)

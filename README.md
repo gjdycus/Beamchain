@@ -12,7 +12,7 @@ This implementation is far from finished and was thrown together to prove a conc
 - [x] Allow nodes to gracefully leave the network while mining
 - [x] Get rid of global processes across nodes
 - [x] Consensus protocol for synchronizing blockchain within cluster
-- [ ] Decouple the blockchain from the mining mechanism
+- [x] Decouple the blockchain from the mining mechanism
 - [ ] Allow nodes to gracefully enter the network and pick up in the middle of a proof-of-work problem
 - [ ] Simplify the process of clustering nodes (there are libraries which do this)
 - [ ] Basic P2P blockchain network & validating incoming blocks
@@ -41,15 +41,15 @@ To connect two or more Elixir nodes together within a local network, we must:
 
 # node @ 10.1.10.213
 > iex --name 'worker@10.1.10.213' --cookie monster -S mix
-iex(worker@10.1.10.213)1> Beamchain.Node.connect(:"worker@10.1.10.145")
+iex(worker@10.1.10.213)1> Network.Node.connect(:"worker@10.1.10.145")
 
 # node @ 10.1.10.198
 > iex --name 'worker@10.1.10.198' --cookie monster -S mix
-iex(worker@10.1.10.198)1> Beamchain.Node.connect(:"worker@10.1.10.145")
+iex(worker@10.1.10.198)1> Network.Node.connect(:"worker@10.1.10.145")
 
 # node @ 10.1.10.254
 > iex --name 'worker@10.1.10.254' --cookie monster -S mix
-iex(worker@10.1.10.254)1> Beamchain.Node.connect(:"worker@10.1.10.145")
+iex(worker@10.1.10.254)1> Network.Node.connect(:"worker@10.1.10.145")
 ```
 
 After this, all 4 nodes will be connected.
@@ -61,11 +61,11 @@ iex(worker@10.1.10.213)2> Node.list()
 
 #### Viewing the local network's blockchain
 
-To get the current state of the blockchain on any node, run `Beamchain.read_blocks()`:
+To get the current state of the blockchain on any node, call `Blockchain.read_blocks()`:
 
 ```
-iex(worker@10.1.10.213)3> Beamchain.read_blocks()
-[%Beamchain.Block{data: "Genesis block",
+iex(worker@10.1.10.213)3> Blockchain.read_blocks()
+[%Blockchain.Block{data: "Genesis block",
   hash: "00000E6BD724E993F81C288688C738D2BC5CF74FF72A6145E29C91BCEAE14833",
   index: 0, nonce: 268731, previous_hash: "0", timestamp: 1508004991}]
 ```
@@ -79,7 +79,7 @@ When you want to add data to the blockchain, the cluster will recruit all connec
 * The same work is not done twice.
 
 ```
-iex(worker@10.1.10.213)4> Beamchain.generate_block("arbitrary data")
+iex(worker@10.1.10.213)4> Blockchain.generate_block("arbitrary data")
 ```
 
 While the nodes are working together to find a solution, you'll be able to watch the output and see that the work is being distributed among nodes and not duplicated.

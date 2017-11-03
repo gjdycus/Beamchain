@@ -1,7 +1,7 @@
-defmodule Beamchain.Server do
+defmodule Blockchain.Server do
   use GenServer
 
-  alias Beamchain.Block
+  alias Blockchain.Block
 
   def init(:ok) do
     {:ok, [Block.genesis_block()]}

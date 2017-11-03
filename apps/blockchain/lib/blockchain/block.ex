@@ -1,6 +1,4 @@
-defmodule Beamchain.Block do
-  alias Beamchain.Miner
-
+defmodule Blockchain.Block do
   defstruct [:index, :timestamp, :data, :previous_hash, :nonce, :hash]
 
   def generate(data, previous_block) do
@@ -11,7 +9,7 @@ defmodule Beamchain.Block do
       previous_hash: previous_block.hash
     }
     |> Miner.proof_of_work()
-    |> Beamchain.add_block()
+    |> Blockchain.add_block()
   end
 
   def genesis_block do
